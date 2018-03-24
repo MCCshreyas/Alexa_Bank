@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Alexa_Console")]
+[assembly: AssemblyTitle("Bank_REST")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Hewlett-Packard")]
-[assembly: AssemblyProduct("Alexa_Console")]
+[assembly: AssemblyProduct("Bank_REST")]
 [assembly: AssemblyCopyright("Copyright © Hewlett-Packard 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4a3bfef9-5b2d-4731-a1d5-aca88a7460b3")]
+[assembly: Guid("d72fc073-a461-4815-9199-d0349b2ebce1")]
 
 // Version information for an assembly consists of the following four values:
 //
