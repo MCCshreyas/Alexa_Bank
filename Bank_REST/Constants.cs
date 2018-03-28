@@ -7,13 +7,11 @@
 		private const string PortNumber = "3000";
 		#endregion
 
-
 		/// <summary>
 		/// Returns REST API call for to get all available Customers 
 		/// </summary>
 		public static readonly string GetAllCustomers = $@"http://{ServerName}:{PortNumber}/customer/";
-
-
+		
 		/// <summary>
 		/// Returns specified REST API call for customer ID
 		/// </summary>
