@@ -1,17 +1,14 @@
-﻿using System;
-using System.Net;
-using System.Net.Security;
+﻿using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Bank_REST
 {
-    public class BankApi
+    public class BankApi : Constants 
     {
 	    static void Main(string[] args)
 	    {
 		    GetCustomerUserName("653546546");
-
 	    }
 
 	    public static string GetCustomerUserName(string accountNumber = "")
@@ -21,7 +18,8 @@ namespace Bank_REST
 		    {
 			    using (var client = new WebClient())
 			    {
-				    var jsonResponse = client.DownloadString($"http://localhost:3000/customer/{accountNumber}");
+				    
+					var jsonResponse = client.DownloadString($"http://localhost:3000/customer/{accountNumber}");
 				    var obj = JsonConvert.DeserializeObject<JArray>(jsonResponse);
 
 				    if (obj.Count == 0)
