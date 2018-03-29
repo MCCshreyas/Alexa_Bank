@@ -13,6 +13,7 @@ namespace Alexa_Console
 			var userChoice = 0;
 			do
 			{
+				
 				Console.WriteLine();
 				Console.WriteLine("Select from following option");
 				Console.WriteLine("1. Log in");
@@ -119,7 +120,7 @@ namespace Alexa_Console
 
 			if (result)
 			{
-				ShowWelcomeWindow();
+				ShowWelcomeWindow(accountnumber);
 			}
 			else
 			{
@@ -128,33 +129,37 @@ namespace Alexa_Console
 			}
 		}
 
-		private static void ShowWelcomeWindow()
+		private static void ShowWelcomeWindow(string accountnumber = null)
 		{
-			Console.Clear();
-			Console.WriteLine();
-			Console.WriteLine("1. Check account status");
-			Console.WriteLine("2. WithDraw Money");
-			Console.WriteLine("3. Save Money");
-			Console.WriteLine("4. Account settings");
-			var convertResult = int.TryParse(Console.ReadLine(), out var result);
-
-			if (!convertResult) return;
-
-			switch (result)
+			var acc = accountnumber;
+			var result = 0;
+			do
 			{
-				case 1:
-					ShowAccountStatus();
-					break;
+				Console.WriteLine();
+				Console.WriteLine("1. Check account status");
+				Console.WriteLine("2. WithDraw Money");
+				Console.WriteLine("3. Save Money");
+				Console.WriteLine("4. Account settings");
+				var convertResult = int.TryParse(Console.ReadLine(), out result);
 
-				case 2:
-					WithDrawMoney();
-					break;
+				if (!convertResult) return;
 
-				case 3:
-					DepositeMoney();
-					break;
+				switch (result)
+				{
+					case 1:
+						ShowAccountStatus();
+						break;
 
-			}
+					case 2:
+						WithDrawMoney(acc);
+						break;
+
+					case 3:
+						DepositeMoney();
+						break;
+
+				} 
+			} while (result != 5);
 
 
 
@@ -165,9 +170,30 @@ namespace Alexa_Console
 			throw new NotImplementedException();
 		}
 
-		private static void WithDrawMoney()
+		private static void WithDrawMoney(string accountNo)
 		{
-			
+			Console.WriteLine("Enter Withdraw amount : ");
+			var amount = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+
+			var status = Operations.WithDrawMoney(accountNo, amount);
+
+			if (status == 0)
+			{
+				Console.WriteLine("Money withdraw sucessfully");
+			}
+			else
+			{
+				if (status == -1)
+				{
+					Console.WriteLine("Something went wrong");
+				}
+				else if (status == -2)
+				{
+					Console.WriteLine("Not enough balance in your account. Failed");
+				}
+			}
+
+
 		}
 
 		private static void ShowAccountStatus()
