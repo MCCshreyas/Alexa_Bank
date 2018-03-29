@@ -155,7 +155,7 @@ namespace Alexa_Console
 						break;
 
 					case 3:
-						DepositeMoney();
+						DepositeMoney(acc);
 						break;
 
 				} 
@@ -165,9 +165,29 @@ namespace Alexa_Console
 
 		}
 
-		private static void DepositeMoney()
+		private static void DepositeMoney(string accountNo)
 		{
-			
+			var currentBalance = Operations.GetCurrentBalance(accountNo);
+
+			if (currentBalance == -2)
+			{
+				currentBalance = -0000000;
+			}
+
+			Console.WriteLine($"Current balance = {currentBalance}");
+
+			Console.WriteLine("Enter amount for deposite : ");
+			var amount = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
+
+			var status = Operations.DepositeMoney(accountNo, amount);
+
+			switch (status)
+			{
+				case 0:
+					Console.WriteLine("Money deposited sucessfully");
+					break;
+			}
+
 		}
 
 		private static void WithDrawMoney(string accountNo)
@@ -193,9 +213,6 @@ namespace Alexa_Console
 					break;
 				case -1:
 					Console.WriteLine("Something went wrong");
-					break;
-				case -2:
-					Console.WriteLine("Not enough balance in your account. Failed");
 					break;
 			}
 		}
