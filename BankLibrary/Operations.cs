@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bank_REST;
-namespace BankLibrary
+﻿namespace BankLibrary
 {
+	using System;
+	using Bank_REST;
+
 	public class Operations
 	{
 		public static int WithDrawMoney(string accountNumber = null , long amount = 0 )
@@ -31,6 +28,17 @@ namespace BankLibrary
 				}	
 			}
 			return -1;
+		}
+
+		public static int GetCurrentBalance(string accountNumber)
+		{
+			var balance = BankApi.GetCustomerBalance(accountNumber);
+			if (balance != null)
+			{
+				return Convert.ToInt32(balance);
+			}
+
+			return -2;
 		}
 	}
 }
