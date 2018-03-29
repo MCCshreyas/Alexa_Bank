@@ -167,33 +167,37 @@ namespace Alexa_Console
 
 		private static void DepositeMoney()
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		private static void WithDrawMoney(string accountNo)
 		{
+			var currentBalance = Operations.GetCurrentBalance(accountNo);
+
+			if (currentBalance == -2)
+			{
+				currentBalance = -0000000;
+			}
+
+			Console.WriteLine($"Current balance = {currentBalance}");
+
 			Console.WriteLine("Enter Withdraw amount : ");
 			var amount = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
 
 			var status = Operations.WithDrawMoney(accountNo, amount);
 
-			if (status == 0)
+			switch (status)
 			{
-				Console.WriteLine("Money withdraw sucessfully");
-			}
-			else
-			{
-				if (status == -1)
-				{
+				case 0:
+					Console.WriteLine("Money withdraw sucessfully");
+					break;
+				case -1:
 					Console.WriteLine("Something went wrong");
-				}
-				else if (status == -2)
-				{
+					break;
+				case -2:
 					Console.WriteLine("Not enough balance in your account. Failed");
-				}
+					break;
 			}
-
-
 		}
 
 		private static void ShowAccountStatus()
