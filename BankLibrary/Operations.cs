@@ -5,12 +5,12 @@
 
 	public class Operations
 	{
-		public static int WithDrawMoney(string accountNumber = null , long amount = 0 )
+		public static int WithDrawMoney(string accountNumber = null, long amount = 0)
 		{
-			if (accountNumber!= null && amount != 0)
+			if (accountNumber != null && amount != 0)
 			{
 				var responseBalance = BankApi.GetCustomerBalance(accountNumber);
-				if (responseBalance!= null)
+				if (responseBalance != null)
 				{
 					var balance = Convert.ToInt64(responseBalance);
 
@@ -25,7 +25,7 @@
 						BankApi.UpdateCustomerBalance(accountNumber, Convert.ToString(balance));
 						return 0;
 					}
-				}	
+				}
 			}
 			return -1;
 		}
@@ -40,5 +40,26 @@
 
 			return -2;
 		}
+
+		public static int DepositeMoney(string accountNumber = "", long amount = 0)
+		{
+			if (accountNumber != null && amount != 0)
+			{
+				var responseBalance = BankApi.GetCustomerBalance(accountNumber);
+				if (responseBalance != null)
+				{
+					var balance = Convert.ToInt64(responseBalance);
+					balance = balance + amount;
+					BankApi.UpdateCustomerBalance(accountNumber, Convert.ToString(balance));
+
+				}
+			}
+			return 0;
+		}
+
+
+
+
+
 	}
 }
