@@ -124,6 +124,7 @@ namespace Alexa_Console
 			else
 			{
 				Console.WriteLine("Plese enter correct username or password");
+				Console.Clear();
 			}
 		}
 
@@ -135,8 +136,43 @@ namespace Alexa_Console
 			Console.WriteLine("2. WithDraw Money");
 			Console.WriteLine("3. Save Money");
 			Console.WriteLine("4. Account settings");
+			var convertResult = int.TryParse(Console.ReadLine(), out var result);
+
+			if (!convertResult) return;
+
+			switch (result)
+			{
+				case 1:
+					ShowAccountStatus();
+					break;
+
+				case 2:
+					WithDrawMoney();
+					break;
+
+				case 3:
+					DepositeMoney();
+					break;
+
+			}
 
 
+
+		}
+
+		private static void DepositeMoney()
+		{
+			throw new NotImplementedException();
+		}
+
+		private static void WithDrawMoney()
+		{
+			
+		}
+
+		private static void ShowAccountStatus()
+		{
+			
 		}
 	}
 }
