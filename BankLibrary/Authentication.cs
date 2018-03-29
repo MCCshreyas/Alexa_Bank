@@ -4,9 +4,10 @@ namespace BankLibrary
 {
     public class Authentication
     {
-        public static bool Authenticate(string account_number = "" , string password = "")
+        public static bool Authenticate(string accountNumber = "" , string password = "")
         {
-             return BankApi.CheckCustomerAuthentication(account_number, password);
+	        var responsePassword = BankApi.GetCustomerPassword(accountNumber);
+	        return responsePassword != null && responsePassword.ToString().Equals(password);
         }
     }
 }

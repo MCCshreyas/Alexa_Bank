@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Authentication.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="Operations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
