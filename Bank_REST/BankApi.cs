@@ -290,6 +290,32 @@
 			}
 		}
 
+		public static string GetCustomerPhoneNumber(string accountNumber = "")
+		{
+			if (accountNumber == "") return null;
+			try
+			{
+				using (var client = new WebClient())
+				{
+
+					var jsonResponse = client.DownloadString(GetCustomerById(accountNumber));
+					var obj = JsonConvert.DeserializeObject<JArray>(jsonResponse);
+
+					if (obj.Count == 0)
+					{
+						return null;
+					}
+
+					var usernameResponse = obj[0]["Phone_number"].ToString();
+					return usernameResponse;
+				}
+			}
+			catch (WebException)
+			{
+				return null;
+			}
+		}
+
 		#endregion
 
 		#region UpdateMethods

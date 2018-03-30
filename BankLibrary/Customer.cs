@@ -1,21 +1,10 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Bank_REST;
 
 namespace BankLibrary
 {
-	public enum Gender
-	{
-		Male = 1,
-		Female = 2,
-		Other = 3
-	}
-
-	public enum MobileNotification
-	{
-		Yes = 1,
-		No = 2
-	}
-
+	
 	public class Customer
 	{
 		#region Fields
@@ -27,29 +16,48 @@ namespace BankLibrary
 		private string _accountNumber;
 		private string _balance;
 		private string _image;
-		private Gender _gender;
-		private DateTime _birthDate;
-		private MobileNotification _mobileNotification;
+		private string _gender;
+		private string _birthDate;
+		private string _mobileNotification;
 		#endregion
 
 		#region FieldInitialization
 
-		private string Name
+		public Customer(string accountNumber)
 		{
-			get => _name;
+			 _accountNumber = accountNumber;
+			_name = BankApi.GetCustomerUserName(_accountNumber);
+			_address = BankApi.GetCustomerAddress(accountNumber);
+			_phoneNumber = BankApi.GetCustomerPhoneNumber(accountNumber);
+			_email = BankApi.GetCustomerEmail(accountNumber);
+			_password = BankApi.GetCustomerPassword(accountNumber);
+			_balance = BankApi.GetCustomerBalance(accountNumber);
+			_image = BankApi.GetCustomerImagePath(accountNumber);
+			_gender = BankApi.GetCustomerGender(accountNumber);
+			_mobileNotification = BankApi.GetCustomerMobileVerificationStatus(accountNumber);
+			_birthDate = BankApi.GetCustomerBirthDate(accountNumber);
+		}
+		
+		public string Name
+		{
+			get => this._name;
+
 			set
 			{
-				if (value == null)
-				{
-					throw new Exception("Name cannot be null");
-				}
+				//value = ;
+				_name = value;
 			}
 		}
+
 
 		public string Address
 		{
 			get => _address;
-			set => _address = value;
+			set
+			{
+				value = BankApi.GetCustomerAddress(this._accountNumber);
+				_name = value;
+			}
 		}
 
 		public string PhoneNumber
@@ -57,6 +65,8 @@ namespace BankLibrary
 			get => _phoneNumber;
 			set
 			{
+				value = BankApi.GetCustomerPhoneNumber(this._accountNumber);
+
 				if (value == null)
 				{
 					throw new Exception("Phone number cannot be null");
@@ -77,11 +87,13 @@ namespace BankLibrary
 		}
 
 
-		public DateTime BirthDate
+		public string BirthDate
 		{
 			get => _birthDate;
 			set
 			{
+				//value = Convert.ToDateTime(BankApi.GetCustomerBirthDate(this._accountNumber));
+				
 				if (value == null)
 				{
 					throw new Exception("Birth date cannot be null");
@@ -97,6 +109,8 @@ namespace BankLibrary
 			get => _email;
 			set
 			{
+				value = BankApi.GetCustomerEmail(this._accountNumber);
+
 				bool isEmail = Regex.IsMatch(value, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
 				if (isEmail)
 				{
@@ -114,6 +128,7 @@ namespace BankLibrary
 			get => _password;
 			set
 			{
+				value = BankApi.GetCustomerPassword(this._accountNumber);
 				if (value.Length < 8)
 				{
 					throw new Exception("Password cannot be less than 8 characters");
@@ -123,49 +138,44 @@ namespace BankLibrary
 			}
 		}
 
-		public string AccountNumber
-		{
-			get => _accountNumber;
-			set => _accountNumber = value;
-		}
+		public string AccountNumber => _accountNumber;
 
 		public string Balance
 		{
 			get => _balance;
 			set
 			{
+				value = BankApi.GetCustomerBalance(this._accountNumber);
+
 				if (value == null || value.Contains("-"))
 				{
 					throw new Exception("Balance cannot be null or negative");
 				}
+
+				this._balance = value;
 			}
 		}
 
 		public string Image
 		{
 			get => _image;
-			set => _image = value;
+			set => _image = BankApi.GetCustomerImagePath(this._accountNumber);
 		}
 
-		public Gender Gender1
+		public string Gender
 		{
 			get => _gender;
-			set => _gender = value;
+			set => BankApi.GetCustomerGender(this._accountNumber);
 		}
 
-		public MobileNotification Notification
+		public string Notification
 		{
 			get => _mobileNotification;
-			set => _mobileNotification = value;
+			set => BankApi.GetCustomerMobileVerificationStatus(this._accountNumber);
 		}
 
 		#endregion
-
-		#region Constructor
-
-		public Customer()
-		{
-		}
-		#endregion
+		
+				
 	}
 }

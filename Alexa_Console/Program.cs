@@ -13,7 +13,6 @@ namespace Alexa_Console
 			var userChoice = 0;
 			do
 			{
-				
 				Console.WriteLine();
 				Console.WriteLine("Select from following option");
 				Console.WriteLine("1. Log in");
@@ -28,7 +27,7 @@ namespace Alexa_Console
 						break;
 
 					case 2:
-						CreateNewAccount();
+						//CreateNewAccount();
 						break;
 
 					case 3:
@@ -42,6 +41,7 @@ namespace Alexa_Console
 			} while (userChoice != 3);
 		}
 
+		/*
 		private static void CreateNewAccount()
 		{
 			try
@@ -51,22 +51,22 @@ namespace Alexa_Console
 				Console.Write("Enter full name: ");
 				var name = Console.ReadLine();
 
-				var customerobj = new Customer();
+			//	var customerobj = new Customer();
 
 				Console.Write("Address: ");
-				customerobj.Address = Console.ReadLine();
+				//customerobj.Address = Console.ReadLine();
 
 				Console.Write("Phone Number: ");
-				customerobj.PhoneNumber = Console.ReadLine();
+				//customerobj.PhoneNumber = Console.ReadLine();
 
 				Console.Write("Email: ");
-				customerobj.Email = Console.ReadLine();
+			//	customerobj.Email = Console.ReadLine();
 
 				Console.Write("Birth Date: ");
-				customerobj.BirthDate = Convert.ToDateTime(Console.ReadLine());
+				//customerobj.BirthDate = Convert.ToDateTime(Console.ReadLine());
 
 				Console.Write("Password: ");
-				customerobj.Password = Console.ReadLine();
+			//	customerobj.Password = Console.ReadLine();
 
 				Console.Write("Initial balance: ");
 				customerobj.Balance = Console.ReadLine();
@@ -88,14 +88,14 @@ namespace Alexa_Console
 				Console.WriteLine("2. Female");
 				Console.WriteLine("3. Other");
 				var gender = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-				customerobj.Gender1 = (Gender) Enum.ToObject(typeof(Gender),gender);
-				
+				customerobj.Gender1 = (Gender)Enum.ToObject(typeof(Gender), gender);
+
 				Console.WriteLine("Do you want to enable Mobile notification for your account. ");
 				Console.WriteLine(@"Type 'y' for Yes and 'n' for no");
 
 				var choice = Console.ReadLine();
-				customerobj.Notification = (MobileNotification) Enum.ToObject(typeof(MobileNotification), gender);
-				
+				customerobj.Notification = (MobileNotification)Enum.ToObject(typeof(MobileNotification), gender);
+
 				Console.WriteLine("Account created sucessfully");
 
 				string json = JsonConvert.SerializeObject(customerobj);
@@ -106,6 +106,7 @@ namespace Alexa_Console
 				Console.WriteLine(ex.Message);
 			}
 		}
+		*/
 
 		public static void LogIn()
 		{
@@ -120,6 +121,7 @@ namespace Alexa_Console
 
 			if (result)
 			{
+				Console.Clear();
 				ShowWelcomeWindow(accountnumber);
 			}
 			else
@@ -147,7 +149,7 @@ namespace Alexa_Console
 				switch (result)
 				{
 					case 1:
-						ShowAccountStatus();
+						ShowAccountStatus(acc);
 						break;
 
 					case 2:
@@ -158,12 +160,10 @@ namespace Alexa_Console
 						DepositeMoney(acc);
 						break;
 
-				} 
+				}
 			} while (result != 5);
-
-
-
 		}
+
 
 		private static void DepositeMoney(string accountNo)
 		{
@@ -184,7 +184,7 @@ namespace Alexa_Console
 			switch (status)
 			{
 				case 0:
-					Console.WriteLine("Money deposited sucessfully");
+					Console.WriteLine($"Money deposited sucessfully. Your current balance is {Operations.GetCurrentBalance(accountNo)}");
 					break;
 			}
 
@@ -209,7 +209,7 @@ namespace Alexa_Console
 			switch (status)
 			{
 				case 0:
-					Console.WriteLine("Money withdraw sucessfully");
+					Console.WriteLine($"Money withdraw sucessfully. Your current balance is {Operations.GetCurrentBalance(accountNo)} ");
 					break;
 				case -1:
 					Console.WriteLine("Something went wrong");
@@ -217,9 +217,15 @@ namespace Alexa_Console
 			}
 		}
 
-		private static void ShowAccountStatus()
+		private static void ShowAccountStatus(string accountNo)
 		{
+			var cs = new Customer(accountNo);
 			
+			Console.WriteLine("=======================================");
+			Console.WriteLine($"Account number: {cs.AccountNumber}");
+			Console.WriteLine($"Account holder name: {cs.Name}");
+			Console.WriteLine($"Current balance: Rs.{cs.Balance}");
+			Console.WriteLine("=======================================");
 		}
 	}
 }
