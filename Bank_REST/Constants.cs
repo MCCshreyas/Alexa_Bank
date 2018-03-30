@@ -102,5 +102,10 @@
 		{
 			return id != null ? $@"http://{ServerName}:{PortNumber}/customer/{id}" : null;
 		}
+
+		protected static string GetAllAccountNumbers()
+		{
+			return $@"http://{ServerName}:{PortNumber}/accounts";
+		}
 	}
 }

@@ -1,4 +1,8 @@
-﻿namespace Bank_REST
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Bank_REST
 
 {
 	using System.Net;
@@ -9,6 +13,8 @@
 
 	public class BankApi : Constants
 	{
+		
+
 		#region GetMethods 
 
 		/// <summary>
@@ -308,6 +314,40 @@
 
 					var usernameResponse = obj[0]["Phone_number"].ToString();
 					return usernameResponse;
+				}
+			}
+			catch (WebException)
+			{
+				return null;
+			}
+		}
+
+		public static List<string> GetCustomersAccountNumbers()
+		{
+			try
+			{
+				using (var client = new WebClient())
+				{
+
+					var jsonResponse = client.DownloadString(GetAllAccountNumbers());
+					var obj = JsonConvert.DeserializeObject<JArray>(jsonResponse);
+
+					if (obj.Count == 0)
+					{
+						return null;
+					}
+
+					var usernameResponse = "";
+
+					List<string> accountNumberArray = new List<string>();
+				
+
+					foreach (var t in obj)
+					{
+						accountNumberArray.Add(t["Account_number"].ToString());
+					}
+
+					return accountNumberArray;
 				}
 			}
 			catch (WebException)
