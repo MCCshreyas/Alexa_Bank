@@ -9,12 +9,7 @@ namespace BankLibrary
 	public class Operations
 	{
 		private static readonly Random Rng = new Random();
-		static void Main(string[] args)
-		{
-			CreateNewAccount();
-		}
-
-
+		
 		public static int WithDrawMoney(string accountNumber = null, long amount = 0)
 		{
 			if (accountNumber != null && amount != 0)
@@ -67,7 +62,7 @@ namespace BankLibrary
 			return 0;
 		}
 
-		public static long CreateNewAccount()
+		public static long InitializeNewAccount()
 		{
 			long GenerateAccountNumber()
 			{
@@ -93,8 +88,6 @@ namespace BankLibrary
 
 			return generatedNumber;
 		}
-
-		
 
 	}
 }
