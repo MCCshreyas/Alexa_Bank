@@ -1,15 +1,15 @@
 {
-  "name": "nodejs-restapi",
+  "name": "alexa_node_server",
   "version": "1.0.0",
-  "description": "Simple Example of nodejs to create rest call using MySQL",
+  "description": "Mysql Node server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
-    "name": "Rachel",
-    "email": "restapi2example@gmail.com",
-    "url": "http://www.resapiexample.com/"
+    "name": "Shreyas Jejurkar",
+    "email": "shreyasjejurkar123@live.com",
+    "url": "http://mccshreyas.wordpress.com/"
   },
   "license": "MIT",
   "dependencies": {
