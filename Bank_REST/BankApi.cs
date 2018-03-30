@@ -13,8 +13,6 @@ namespace Bank_REST
 
 	public class BankApi : Constants
 	{
-		
-
 		#region GetMethods 
 
 		/// <summary>
@@ -337,11 +335,8 @@ namespace Bank_REST
 						return null;
 					}
 
-					var usernameResponse = "";
-
 					List<string> accountNumberArray = new List<string>();
 				
-
 					foreach (var t in obj)
 					{
 						accountNumberArray.Add(t["Account_number"].ToString());
