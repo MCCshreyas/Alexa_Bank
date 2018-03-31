@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using BankLibrary;
 using Newtonsoft.Json;
@@ -7,7 +8,7 @@ namespace Alexa_Console
 {
 	class Program
 	{
-		[STAThreadAttribute]
+		[STAThread]
 		static void Main(string[] args)
 		{
 			var userChoice = 0;
@@ -27,7 +28,7 @@ namespace Alexa_Console
 						break;
 
 					case 2:
-						//CreateNewAccount();
+						CreateNewAccount();
 						break;
 
 					case 3:
@@ -36,65 +37,95 @@ namespace Alexa_Console
 					case 4:
 						break;
 				}
-
-
 			} while (userChoice != 3);
 		}
 
-		/*
+		[STAThread]
 		private static void CreateNewAccount()
 		{
 			try
 			{
 				Console.Clear();
+				var accountNumber = Operations.InitializeNewAccount();
 				Console.WriteLine("Enter following details");
+
 				Console.Write("Enter full name: ");
 				var name = Console.ReadLine();
 
-			//	var customerobj = new Customer();
+				var customerobj = new Customer
+				{
+					AccountNumber = accountNumber.ToString()
+				};
 
 				Console.Write("Address: ");
-				//customerobj.Address = Console.ReadLine();
+				customerobj.Address = Console.ReadLine();
 
 				Console.Write("Phone Number: ");
-				//customerobj.PhoneNumber = Console.ReadLine();
+				customerobj.PhoneNumber = Console.ReadLine();
 
 				Console.Write("Email: ");
-			//	customerobj.Email = Console.ReadLine();
+				customerobj.Email = Console.ReadLine();
 
 				Console.Write("Birth Date: ");
-				//customerobj.BirthDate = Convert.ToDateTime(Console.ReadLine());
+				customerobj.BirthDate = Console.ReadLine();
 
 				Console.Write("Password: ");
-			//	customerobj.Password = Console.ReadLine();
+				customerobj.Password = Console.ReadLine();
 
 				Console.Write("Initial balance: ");
 				customerobj.Balance = Console.ReadLine();
 
 				Console.Write("Select passport size photo: ");
-				var open = new OpenFileDialog
-				{
-					Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp"
-				};
+				var a = new Thread(GetImage);
+				a.Start();
 
-				if (open.ShowDialog() == DialogResult.OK)
+
+				void GetImage()
 				{
-					Console.WriteLine($"Selected image path: {open.FileName}");
-					customerobj.Image = open.FileName.ToString();
+					var open = new OpenFileDialog
+					{
+						Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp"
+					};
+
+					if (open.ShowDialog() == DialogResult.OK)
+					{
+						Console.WriteLine($"Selected image path: {open.FileName}");
+						customerobj.Image = open.FileName;
+					}
 				}
+
 
 				Console.Write("Select gender from following ");
 				Console.WriteLine("1. Male");
 				Console.WriteLine("2. Female");
 				Console.WriteLine("3. Other");
 				var gender = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-				customerobj.Gender1 = (Gender)Enum.ToObject(typeof(Gender), gender);
+				switch (gender)
+				{
+					case 1:
+						customerobj.Gender = "Male";
+						break;
+					case 2:
+						customerobj.Gender = "Female";
+						break;
+					case 3:
+						customerobj.Gender = "Other";
+						break;
+				}
 
 				Console.WriteLine("Do you want to enable Mobile notification for your account. ");
 				Console.WriteLine(@"Type 'y' for Yes and 'n' for no");
 
 				var choice = Console.ReadLine();
-				customerobj.Notification = (MobileNotification)Enum.ToObject(typeof(MobileNotification), gender);
+				switch (choice)
+				{
+					case "y":
+						customerobj.Notification = "Yes";
+						break;
+					case "n":
+						customerobj.Notification = "No";
+						break;
+				}
 
 				Console.WriteLine("Account created sucessfully");
 
@@ -106,7 +137,9 @@ namespace Alexa_Console
 				Console.WriteLine(ex.Message);
 			}
 		}
-		*/
+
+		
+		
 
 		public static void LogIn()
 		{
@@ -126,7 +159,7 @@ namespace Alexa_Console
 			}
 			else
 			{
-				Console.WriteLine("Plese enter correct username or password");
+				MessageBox.Show("Plese enter correct username or password","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
 				Console.Clear();
 			}
 		}
@@ -159,7 +192,6 @@ namespace Alexa_Console
 					case 3:
 						DepositeMoney(acc);
 						break;
-
 				}
 			} while (result != 5);
 		}
@@ -184,10 +216,10 @@ namespace Alexa_Console
 			switch (status)
 			{
 				case 0:
-					Console.WriteLine($"Money deposited sucessfully. Your current balance is {Operations.GetCurrentBalance(accountNo)}");
+					Console.WriteLine(
+						$"Money deposited sucessfully. Your current balance is {Operations.GetCurrentBalance(accountNo)}");
 					break;
 			}
-
 		}
 
 		private static void WithDrawMoney(string accountNo)
@@ -209,7 +241,8 @@ namespace Alexa_Console
 			switch (status)
 			{
 				case 0:
-					Console.WriteLine($"Money withdraw sucessfully. Your current balance is {Operations.GetCurrentBalance(accountNo)} ");
+					Console.WriteLine(
+						$"Money withdraw sucessfully. Your current balance is {Operations.GetCurrentBalance(accountNo)} ");
 					break;
 				case -1:
 					Console.WriteLine("Something went wrong");
@@ -219,8 +252,8 @@ namespace Alexa_Console
 
 		private static void ShowAccountStatus(string accountNo)
 		{
-			var cs = new Customer(accountNo);
-			
+			var cs = new Customer();
+			cs.InitializeAllFieldsForExistingAccount(accountNo);
 			Console.WriteLine("=======================================");
 			Console.WriteLine($"Account number: {cs.AccountNumber}");
 			Console.WriteLine($"Account holder name: {cs.Name}");
