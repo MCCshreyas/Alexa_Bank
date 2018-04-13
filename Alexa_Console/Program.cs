@@ -6,56 +6,68 @@ using Newtonsoft.Json;
 
 namespace Alexa_Console
 {
-	class Program
+	internal class Program
 	{
 		[STAThread]
-		static void Main(string[] args)
-		{
-			var userChoice = 0;
-			do
-			{
-				Console.WriteLine();
-				Console.WriteLine("Select from following option");
-				Console.WriteLine("1. Log in");
-				Console.WriteLine("2. Create a new account");
-				Console.WriteLine("3. Exit");
-				userChoice = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
-
-				switch (userChoice)
-				{
-					case 1:
-						LogIn();
-						break;
-
-					case 2:
-						CreateNewAccount();
-						break;
-
-					case 3:
-						break;
-
-					case 4:
-						break;
-				}
-			} while (userChoice != 3);
-		}
-
-		[STAThread]
-		private static void CreateNewAccount()
+		private static void Main(string[] args)
 		{
 			try
 			{
-				Console.Clear();
-				var accountNumber = Operations.InitializeNewAccount();
-				Console.WriteLine("Enter following details");
+				var userChoice = 0;
+				do
+				{
+					Console.WriteLine();
+					Console.WriteLine("==================================");
+					Console.WriteLine("Welcome to Alexa Bank of India");
+					Console.WriteLine();
+					Console.WriteLine("Select from following option");
+					Console.WriteLine("1. Log in");
+					Console.WriteLine("2. Create a new account");
+					Console.WriteLine("3. Exit");
+					Console.WriteLine("==================================");
+					userChoice = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
 
-				Console.Write("Enter full name: ");
-				var name = Console.ReadLine();
+					switch (userChoice)
+					{
+						case 1:
+							LogIn();
+							break;
+
+						case 2:
+							CreateNewAccount();
+							break;
+
+						case 3:
+							Application.Exit();
+							break;
+
+						case 4:
+							break;
+					}
+				} while (userChoice != 3);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine($"Something went wrong. Problem description : {e.Message}");
+			}
+		}
+
+		private static void CreateNewAccount()
+		{
+			Console.Clear();
+			try
+			{
+				var accountNumber = Operations.InitializeNewAccount();
+
+				Console.WriteLine("Enter following details");
 
 				var customerobj = new Customer
 				{
 					AccountNumber = accountNumber.ToString()
 				};
+
+				Console.Write("Enter full name: ");
+				customerobj.Name = Console.ReadLine();
 
 				Console.Write("Address: ");
 				customerobj.Address = Console.ReadLine();
@@ -93,7 +105,6 @@ namespace Alexa_Console
 						customerobj.Image = open.FileName;
 					}
 				}
-
 
 				Console.Write("Select gender from following ");
 				Console.WriteLine("1. Male");
@@ -138,9 +149,6 @@ namespace Alexa_Console
 			}
 		}
 
-		
-		
-
 		public static void LogIn()
 		{
 			Console.Clear();
@@ -159,7 +167,7 @@ namespace Alexa_Console
 			}
 			else
 			{
-				MessageBox.Show("Plese enter correct username or password","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+				MessageBox.Show("Plese enter correct username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Console.Clear();
 			}
 		}
