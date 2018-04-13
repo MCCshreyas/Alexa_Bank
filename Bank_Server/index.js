@@ -33,10 +33,10 @@ var server = app.listen(3000, "127.0.0.1", () => {
 //REST API section
 
 app.get('/accounts', (req, res) => {
-    connection.query('select Account_number from info', (error, results, fields) => {
-        if (error) throw error;
-        res.end(JSON.stringify(results));
-    });
+	connection.query('select Account_number from info', (error, results, fields) => {
+		if (error) throw error;
+		res.end(JSON.stringify(results));
+	});
 });
 
 app.get('/customer', (req, res) => {
@@ -60,9 +60,9 @@ app.get('/customer/:id', (req, res) => {
 	Address: 'chrome',
 	Phone_number: '7757023365',  
 	Email: 'postman@live.com',
-  	Password: '9970209265',  
-  	Account_number: '1234567890',
-  	Balance: 200,  
+	Password: '9970209265',  
+	Account_number: '1234567890',
+	Balance: 200,  
 	ImagePath: '/something/something.jpg',  
 	Gender: 'Male',
 	MobileVerification: 'Yes',  
