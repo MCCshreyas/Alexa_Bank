@@ -110,14 +110,6 @@
     <Compile Include="AccountSettings.xaml.cs">
       <DependentUpon>AccountSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="bankapplicationDataSet.cs">
-      <DependentUpon>bankapplicationDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="bankapplicationDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>bankapplicationDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="EditPersonalDetails.xaml.cs">
       <DependentUpon>EditPersonalDetails.xaml</DependentUpon>
     </Compile>
@@ -127,10 +119,6 @@
     <Compile Include="ForgetPassword.xaml.cs">
       <DependentUpon>ForgetPassword.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoadingWindow.xaml.cs">
-      <DependentUpon>LoadingWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Operations.cs" />
     <Compile Include="EditAccountHolderName.xaml.cs">
       <DependentUpon>EditAccountHolderName.xaml</DependentUpon>
     </Compile>
@@ -193,10 +181,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoadingWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="LoggedIn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -245,17 +229,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="bankapplicationDataSet.xsc">
-      <DependentUpon>bankapplicationDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="bankapplicationDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>bankapplicationDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="bankapplicationDataSet.xss">
-      <DependentUpon>bankapplicationDataSet.xsd</DependentUpon>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -276,16 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="person.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BankApplicationLibrary\BankApplicationLibrary.csproj">
-      <Project>{73D51AC4-E4C7-4E4F-BE58-244F85F506FB}</Project>
-      <Name>BankApplicationLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DatabaseConnectivity\DatabaseConnectivity.csproj">
-      <Project>{f8b72432-bcb7-471e-b660-5b0cd97cfc82}</Project>
-      <Name>DatabaseConnectivity</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

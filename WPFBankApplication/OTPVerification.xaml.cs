@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using ExtraTools;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
@@ -50,7 +49,7 @@ namespace WPFBankApplication
         {
             if (Convert.ToString(_otp).Equals(TextBoxOTP.Text))
             {
-                DialogBox.Show("Sucess", "Thank you for confirming your account.", "OK");
+                //DialogBox.Show("Sucess", "Thank you for confirming your account.", "OK");
                 Hide();
                 new LoggedIn().Show();
             }

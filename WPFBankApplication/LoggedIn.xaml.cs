@@ -1,9 +1,6 @@
-﻿using BankApplicationLibrary;
-using ExtraTools;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using Exception = System.Exception;
 using Process = System.Diagnostics.Process;
 
 namespace WPFBankApplication
@@ -18,65 +15,10 @@ namespace WPFBankApplication
 
         private void ShowWelcomeSnakbar() => MainSnackbar.MessageQueue.Enqueue("Welcome to Alexa Bank Of India");
 
-        private bool DoValidation()
-        {
-            if (TextBoxAcc.Text.Equals(string.Empty) && PasswordBox.Text.Equals(string.Empty))
-            {
-                DialogBox.Show("ERROR", "Please fill fields", "OK");
-                return false;
-            }
-            return true;
-        }
-
         private void Button1Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (DoValidation())
-                {
-                    if (Customer.AuthenticateLogin(TextBoxAcc.Text,PasswordBox.Text))
-                    {
-                        new Welcome(TextBoxAcc.Text).Show();
-                        Hide();
-                    }
-                }
-            }
-            catch (Exception error)
-            {
-                DialogBox.Show("Exception", "Something went wrong " + error.Message, "OK");
-            }
         }
 
-        private bool AuthenticateLogIn()
-        {
-            string databasePassword = string.Empty;
-            //try
-            //{
-            //    Class.forName("com.mysql.jdbc.Driver");
-            //    var connection = DriverManager.getConnection(Resource.DATABASE_URL, Resource.USERNAME, Resource.PASSWORD);
-
-            //    var ps = connection.prepareStatement("select Password from info where account_number = ?");
-            //    ps.setString(1, TextBoxAcc.Text);
-            //    var rs = ps.executeQuery();
-
-            //    while (rs.next())
-            //    {
-            //        databasePassword = rs.getString("Password");
-            //    }
-
-            //}
-            //catch (SQLException exception)
-            //{
-            //    throw new Exception("Something went wrong " + exception);
-            //}
-
-            if (PasswordBox.Text.Equals(databasePassword))
-            {
-                return true;
-            }
-
-            return false;
-        }
 
         private void Hyperlink_OnClick(object sender, RoutedEventArgs e)
         {
@@ -127,11 +69,6 @@ namespace WPFBankApplication
 
         private void LoggedIn_OnLoaded(object sender, RoutedEventArgs e)
         {
-            /*  while(!Resource.IsInternetAvailable())
-              {
-                  DialogBox.Show("Warning", "Please check internet connectivity", "OK");
-              }
-              */
         }
     }
 }

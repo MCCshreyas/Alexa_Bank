@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace WPFBankApplication
 {
-    public static class Resource
+	public static class Resource
     {
         public const string DATABASE_URL = "jdbc:mysql://localhost/bankapplication";
         public const string USERNAME = "root";

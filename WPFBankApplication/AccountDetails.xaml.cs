@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace WPFBankApplication
+﻿namespace WPFBankApplication
 {
     /// <summary>
     /// Interaction logic for AccountDetails.xaml
