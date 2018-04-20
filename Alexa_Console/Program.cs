@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Forms;
 using BankLibrary;
 using Newtonsoft.Json;
@@ -8,7 +7,7 @@ namespace Alexa_Console
 {
 	internal class Program
 	{
-		[STAThread]
+		[STAThreadAttribute]
 		private static void Main(string[] args)
 		{
 			try
@@ -88,23 +87,18 @@ namespace Alexa_Console
 				customerobj.Balance = Console.ReadLine();
 
 				Console.Write("Select passport size photo: ");
-				var a = new Thread(GetImage);
-				a.Start();
 
-
-				void GetImage()
+				var open = new OpenFileDialog
 				{
-					var open = new OpenFileDialog
-					{
-						Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp"
-					};
+					Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp"
+				};
 
-					if (open.ShowDialog() == DialogResult.OK)
-					{
-						Console.WriteLine($"Selected image path: {open.FileName}");
-						customerobj.Image = open.FileName;
-					}
+				if (open.ShowDialog() == DialogResult.OK)
+				{
+					Console.WriteLine($"Selected image path: {open.FileName}");
+					customerobj.Image = open.FileName;
 				}
+				
 
 				Console.Write("Select gender from following ");
 				Console.WriteLine("1. Male");
