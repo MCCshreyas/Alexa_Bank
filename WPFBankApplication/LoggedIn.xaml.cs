@@ -57,7 +57,7 @@ namespace WPFBankApplication
 
         private void ButtonEmail_OnClick(object sender, RoutedEventArgs e)
         {
-            DialogBox.Show("Contact", "Email - shreyasjejurkar123@live.com", "OK");
+            
         }
 
         private void ButtonTwitter_OnClick(object sender, RoutedEventArgs e)
