@@ -15,7 +15,7 @@ connection.connect((err) => {
 	if (err) {
 		throw err;
 	}
-	console.log('You are now connected with mysql database...')
+	console.log('You are now connected with mysql database...');
 });
 
 app.use(bodyParser.json());
