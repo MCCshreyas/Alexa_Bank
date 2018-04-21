@@ -5,7 +5,6 @@
         Title="Alexa Bank of India" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Height="652.354" Width="1178.608" WindowStartupLocation="CenterScreen"
         FontFamily="{DynamicResource MaterialDesignFont}" ResizeMode="NoResize"
-        Loaded="LoggedIn_OnLoaded"
         MinHeight="652.354" MinWidth="1178.608"        
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
@@ -70,7 +69,6 @@
                             </Button>
 
                             <Button ToolTip="Email" 
-                                    Click="ButtonEmail_OnClick"
                                     Background="Blue"
                                     Foreground="{DynamicResource SecondaryAccentForegroundBrush}">
                                 <materialDesign:PackIcon Kind="Email" />
@@ -210,7 +208,7 @@
                                  PreviewTextInput="TextBox_acc_OnPreviewTextInput" 
                                  materialDesign:HintAssist.Hint="Account number" 
                                  Style="{DynamicResource MaterialDesignFloatingHintTextBox}" 
-                                 Name="TextBoxAcc" 
+                                 Name="TextBoxAccountNumber" 
                                  DataContext="LogIn"
                                  Text="{Binding AccountNumber , Mode=TwoWay}"                                 
                                  VerticalAlignment="Top"
@@ -230,12 +228,11 @@
                                 </Hyperlink>
                             </Label>
 
-                            <TextBox 
+                            <PasswordBox 
                             materialDesign:HintAssist.Hint="Password" 
-                                Style="{DynamicResource MaterialDesignFloatingHintTextBox}" 
+                            Style="{DynamicResource MaterialDesignFloatingHintPasswordBox}" 
                             Margin="10 10 0 0"
-                            Name="PasswordBox" 
-                                Text="{Binding Path=In.Password ,Mode=TwoWay}"
+                            Name="PasswordBoxAccountNumber"
                             />
 
                             <Label 
