@@ -4,13 +4,13 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Alexa Bank of India" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Height="652.354" Width="1178.608" WindowStartupLocation="CenterScreen"
-        FontFamily="{DynamicResource MaterialDesignFont}" ResizeMode="CanResize"
+        FontFamily="{DynamicResource MaterialDesignFont}" ResizeMode="NoResize"
         Loaded="LoggedIn_OnLoaded"
         MinHeight="652.354" MinWidth="1178.608"        
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto">
-    
+
 
     <Border  Padding="0.5" 
              Background="Blue">
@@ -306,7 +306,6 @@
             <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar"
                                      Background="RoyalBlue" />
             <TextBlock  HorizontalAlignment="Left" Margin="581,109,0,0" TextWrapping="Wrap" Text="{Binding LogIn.Password , Mode=TwoWay}"                           VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Left" Margin="581,139,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
         </Grid>
     </Border>
 </Window>
