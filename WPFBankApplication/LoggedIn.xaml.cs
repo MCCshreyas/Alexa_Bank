@@ -25,7 +25,8 @@ namespace WPFBankApplication
 			{
 				return false;
 			}
-			else return true;
+
+			return true;
 		}
 
 		private void Button1Click(object sender, RoutedEventArgs e)
@@ -37,8 +38,7 @@ namespace WPFBankApplication
 				if (status)
 				{
 					MessageBox.Show("Login Sucessfully");
-					Welcome m = new Welcome(TextBoxAccountNumber.Text.Trim());
-					m.Show();
+					new Welcome(TextBoxAccountNumber.Text.Trim()).Show();
 				}
 				else
 				{
@@ -51,7 +51,6 @@ namespace WPFBankApplication
 			}
 		}
 
-
 		private void Hyperlink_OnClick(object sender, RoutedEventArgs e)
 		{
 			new NewAccountRegistration().Show();
@@ -63,7 +62,7 @@ namespace WPFBankApplication
 			var regex = new Regex("[^0-9]+");
 			e.Handled = regex.IsMatch(e.Text);
 		}
-		
+
 		private void ForgetAccountNumberHyperLink_OnClick(object sender, RoutedEventArgs e)
 		{
 			new ForgetAccountNumber().Show();
@@ -76,12 +75,8 @@ namespace WPFBankApplication
 			Hide();
 		}
 
-		private void ButtonGitHub_OnClick(object sender, RoutedEventArgs e)
-		{
-			Process.Start("https://github.com/MCCshreyas");
+		private void ButtonGitHub_OnClick(object sender, RoutedEventArgs e) => Process.Start("https://github.com/MCCshreyas");
 
-		}
-	
 		private void ButtonTwitter_OnClick(object sender, RoutedEventArgs e) => Process.Start("https://twitter.com/MCCshreyas");
 	}
 }

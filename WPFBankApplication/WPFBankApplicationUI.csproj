@@ -134,6 +134,7 @@
     <Compile Include="OTPVerification.xaml.cs">
       <DependentUpon>OTPVerification.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="SaveMoney.xaml.cs">
       <DependentUpon>SaveMoney.xaml</DependentUpon>
@@ -227,9 +228,7 @@
   <ItemGroup>
     <Resource Include="person.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BankLibrary\BankLibrary.csproj">
       <Project>{fba57c79-a06f-41cf-ac5d-314aacce7306}</Project>
