@@ -10,7 +10,6 @@
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto">
 
-
     <Border  Padding="0.5" 
              Background="Blue">
 

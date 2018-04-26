@@ -228,7 +228,9 @@
   <ItemGroup>
     <Resource Include="person.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BankLibrary\BankLibrary.csproj">
       <Project>{fba57c79-a06f-41cf-ac5d-314aacce7306}</Project>

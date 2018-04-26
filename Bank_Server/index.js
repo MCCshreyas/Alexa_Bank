@@ -4,11 +4,19 @@ var app = express();
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
 
+//MySQL database credentials 
+var HOST_NAME = 'localhost';
+var USER_NAME = 'root';
+var USER_PASSWORD = '9970209265';
+var DATABASE_NAME = 'BankApp';
+
+
+//Connection establishment 
 var connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: '9970209265',
-	database: 'BankApp'
+	host: HOST_NAME,
+	user: USER_NAME,
+	password: USER_PASSWORD,
+	database: DATABASE_NAME
 });
 
 connection.connect((err) => {
