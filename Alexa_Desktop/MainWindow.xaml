@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:Alexa_Desktop"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <WrapPanel>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="226,151,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="474,151,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="343,156,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="587,156,0,0" VerticalAlignment="Top" Width="75"/>
+
+    </WrapPanel>
 </Window>
