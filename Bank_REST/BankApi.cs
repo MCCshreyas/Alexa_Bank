@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 namespace Bank_REST
-
 {
 	using System.Net;
 	using Newtonsoft.Json;
@@ -20,12 +19,15 @@ namespace Bank_REST
 		/// <returns></returns>
 		public static string GetCustomerUserName(string accountNumber = "")
 		{
-			if (accountNumber == "") return null;
+			if (accountNumber.Equals(string.Empty))
+			{
+				return null;
+			}
+
 			try
 			{
 				using (var client = new WebClient())
 				{
-
 					var jsonResponse = client.DownloadString(GetCustomerById(accountNumber));
 					var obj = JsonConvert.DeserializeObject<JArray>(jsonResponse);
 
@@ -36,6 +38,7 @@ namespace Bank_REST
 
 					var usernameResponse = obj[0]["Name"].ToString();
 					return usernameResponse;
+
 				}
 			}
 			catch (WebException)
@@ -51,7 +54,11 @@ namespace Bank_REST
 		/// <returns></returns>
 		public static string GetCustomerPassword(string accountNumber = "")
 		{
-			if (accountNumber == "") return null;
+			if (accountNumber.Equals(string.Empty))
+			{
+				return null;
+			}
+
 			try
 			{
 				using (var client = new WebClient())
@@ -82,12 +89,15 @@ namespace Bank_REST
 		/// <returns></returns>
 		public static string GetCustomerEmail(string accountNumber = "")
 		{
-			if (accountNumber == "") return null;
+			if (accountNumber.Equals(string.Empty))
+			{
+				return null;
+			}
+
 			try
 			{
 				using (var client = new WebClient())
 				{
-
 					var jsonResponse = client.DownloadString(GetCustomerById(accountNumber));
 					var obj = JsonConvert.DeserializeObject<JArray>(jsonResponse);
 
@@ -113,12 +123,15 @@ namespace Bank_REST
 		/// <returns></returns>
 		public static string GetCustomerBalance(string accountNumber = "")
 		{
-			if (accountNumber == "") return null;
+			if (accountNumber.Equals(string.Empty))
+			{
+				return null;
+			}
+
 			try
 			{
 				using (var client = new WebClient())
 				{
-
 					var jsonResponse = client.DownloadString(GetCustomerById(accountNumber));
 					var obj = JsonConvert.DeserializeObject<JArray>(jsonResponse);
 
@@ -334,7 +347,7 @@ namespace Bank_REST
 					}
 
 					List<string> accountNumberArray = new List<string>();
-				
+
 					foreach (var t in obj)
 					{
 						accountNumberArray.Add(t["Account_number"].ToString());
