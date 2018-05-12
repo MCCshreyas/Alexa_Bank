@@ -4,7 +4,6 @@ namespace BankLibrary
 {
 	public class Authentication
 	{
-		
 		public static bool Authenticate(string accountNumber = "" , string password = "")
 		{
 			var responsePassword = BankApi.GetCustomerPassword(accountNumber);
