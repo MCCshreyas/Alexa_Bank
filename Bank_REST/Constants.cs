@@ -162,9 +162,6 @@
 		/// Returns REST API for getting account numbers
 		/// </summary>
 		/// <returns></returns>
-		protected static string GetAllAccountNumbers()
-		{
-			return $@"http://{ServerName}:{PortNumber}/accounts";
-		}
+		protected static string GetAllAccountNumbers() => $@"http://{ServerName}:{PortNumber}/accounts";
 	}
 }
