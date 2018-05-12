@@ -15,6 +15,7 @@ namespace BankLibrary
 			if (accountNumber != null && amount != 0)
 			{
 				var responseBalance = BankApi.GetCustomerBalance(accountNumber);
+
 				if (responseBalance != null)
 				{
 					var balance = Convert.ToInt64(responseBalance);
@@ -82,12 +83,11 @@ namespace BankLibrary
 			{
 				if (number == generatedNumber.ToString())
 				{
-					generatedNumber = GenerateAccountNumber();
+					generatedNumber = generatedNumber + 1;
 				}
 			}
 
 			return generatedNumber;
 		}
-
 	}
 }
