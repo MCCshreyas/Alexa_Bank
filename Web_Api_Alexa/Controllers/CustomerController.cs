@@ -1,5 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using Web_Api_Alexa.Models;
 
@@ -10,7 +12,7 @@ namespace Web_Api_Alexa.Controllers
         // GET: api/Customer
         public List<Customer> Get()
         {
-            MySqlConnection connection = WebApiConfig.ConnectDb();
+            var connection = WebApiConfig.ConnectDb();
             connection.Open();
 
             var cmd = new MySqlCommand("SELECT * FROM info", connection);
@@ -64,11 +66,28 @@ namespace Web_Api_Alexa.Controllers
                 return result;
             }
             return null;
+        }
 
+
+        [Route("api/Customer/GetAccountNumbers")]
+        [HttpGet]
+        public List<string> GetAllAccountNumbers()
+        {
+            var connection = WebApiConfig.ConnectDb();
+            connection.Open();
+            var result = new List<string>();
+            var command = new MySqlCommand("SELECT Account_number from info", connection);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                result.Add(reader["Account_number"].ToString());
+            }
+
+            return result;
         }
 
         // POST: api/Customer
-        public void Post(Customer newCustomer)
+        public HttpResponseMessage Post(Customer newCustomer)
         {
             var connection = WebApiConfig.ConnectDb();
             connection.Open();
@@ -83,11 +102,19 @@ namespace Web_Api_Alexa.Controllers
             command.Parameters.AddWithValue("@image_path", newCustomer.ImagePath);
             command.Parameters.AddWithValue("@gender", newCustomer.Gender);
             command.Parameters.AddWithValue("@birth_date", newCustomer.BirthDate);
+            
+            var status = command.ExecuteNonQuery();
 
-
-            command.ExecuteNonQuery();
-
-
+            if (status == 1)
+            {
+                connection.Close();
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            else
+            {
+                connection.Close();
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
         }
 
         // PUT: api/Customer/5
@@ -95,8 +122,11 @@ namespace Web_Api_Alexa.Controllers
         {
             CustomerController cc = new CustomerController();
             var customer = cc.Get();
+
+            // Find the account 
             foreach (var item in customer)
             {
+                // Update the fields
                 if (id.ToString() == item.Account_number)
                 {
                     item.Name = updateDetails.Name;
@@ -125,23 +155,52 @@ namespace Web_Api_Alexa.Controllers
 
 
                     command.ExecuteReader();
+                    connection.Close();
                     return;
-
-
                 }
             }
 
         }
 
 
+        [Route("api/Customer/UpdateBalance/{accountNumber}/{balance}")]
+        [HttpPut]
+        public HttpResponseMessage UpdateBalance(string accountNumber, string balance)
+        {
+            var connection = WebApiConfig.ConnectDb();
+            connection.Open();
+            var command = new MySqlCommand($"Update info set Balance = {balance} where Account_number = {accountNumber}", connection);
+            int status = command.ExecuteNonQuery();
+            if (status == 1)
+            {
+                connection.Close();
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            else
+            {
+                connection.Close();
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+
+        }
+
         // DELETE: api/Customer/5
-        public void Delete(string id)
+        public HttpResponseMessage Delete(string id)
         {
             var connection = WebApiConfig.ConnectDb();
             connection.Open();
             var command = new MySqlCommand($"DELETE from info where Account_number = {id}", connection);
-            command.ExecuteNonQuery();
-
+            var status = command.ExecuteNonQuery();
+            if (status == 1)
+            {
+                connection.Close();
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            else
+            {
+                connection.Close();
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
         }
     }
 }

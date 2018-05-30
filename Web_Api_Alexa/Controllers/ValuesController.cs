@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using MySql.Data.MySqlClient;
 using Web_Api_Alexa.Models;
 
 namespace Web_Api_Alexa.Controllers
