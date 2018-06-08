@@ -54,9 +54,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bank_REST\Bank_REST.csproj">
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bank_REST\Alexa_Server.csproj">
       <Project>{d72fc073-a461-4815-9199-d0349b2ebce1}</Project>
-      <Name>Bank_REST</Name>
+      <Name>Alexa_Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
