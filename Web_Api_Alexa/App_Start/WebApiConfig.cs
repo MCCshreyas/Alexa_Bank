@@ -8,32 +8,6 @@ namespace Web_Api_Alexa
 {
     public static class WebApiConfig
     {
-        public static MySqlConnection ConnectDb()
-        {
-            try
-            {
-                const string ServerName = @"localhost";
-                const string Port = "3306";
-                const string DatabaseName = "bankapp";
-                const string UserName = "root";
-                const string Password = "9970209265";
-
-                string connectionString = $@"   server={ServerName};
-                                                port={Port};
-                                                database={DatabaseName};
-                                                username={UserName};
-                                                password={Password};";
-
-                var connection = new MySqlConnection(connectionString);
-                return connection;
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
