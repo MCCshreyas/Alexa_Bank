@@ -1,165 +1,121 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Web_Api_Alexa.Models;
 
 namespace Web_Api_Alexa.Controllers
 {
     public class CustomerController : ApiController
     {
-        // GET: api/Customer
-        public List<Customer> Get()
+        private const string ErrorMessage = "Something went wrong";
+
+
+        private readonly CustomerDBContext _db = new CustomerDBContext();
+
+        [Route("api/Customer")]
+        [HttpGet]
+        public IQueryable<Customer> Get()
         {
-            var connection = WebApiConfig.ConnectDb();
-            connection.Open();
-
-            var cmd = new MySqlCommand("SELECT * FROM info", connection);
-
-            var results = new List<Customer>();
-
-            var dataReader = cmd.ExecuteReader();
-
-            while (dataReader.Read())
-            {
-                results.Add(new Customer(
-                    dataReader["Name"].ToString(),
-                    dataReader["Address"].ToString(),
-                    dataReader["Phone_number"].ToString(),
-                    dataReader["Email"].ToString(),
-                    dataReader["Password"].ToString(),
-                    dataReader["Balance"].ToString(),
-                    dataReader["Account_number"].ToString(),
-                    dataReader["ImagePath"].ToString(),
-                    dataReader["Gender"].ToString(),
-                    dataReader["BirthDate"].ToString()));
-            }
-
-            return results;
+            return _db.Customers;
         }
 
-        // GET: api/Customer/5
+        [Route("api/Customer/{id}")]
+        [HttpGet]
         public Customer Get(string id)
         {
-            var connection = WebApiConfig.ConnectDb();
-            connection.Open();
-
-            var cmd = new MySqlCommand($"SELECT * FROM info where Account_number = {id} ", connection);
-
-            var dataReader = cmd.ExecuteReader();
-
-            while (dataReader.Read())
+            var c = _db.Customers.FirstOrDefault(i => i.Account_number == id);
+            if (c != null)
             {
-
-                var result = new Customer(
-                    dataReader["Name"].ToString(),
-                    dataReader["Address"].ToString(),
-                    dataReader["Phone_number"].ToString(),
-                    dataReader["Email"].ToString(),
-                    dataReader["Password"].ToString(),
-                    dataReader["Balance"].ToString(),
-                    dataReader["Account_number"].ToString(),
-                    dataReader["ImagePath"].ToString(),
-                    dataReader["Gender"].ToString(),
-                    dataReader["BirthDate"].ToString());
-                return result;
+                return c;
             }
+
             return null;
         }
-
 
         [Route("api/Customer/GetAccountNumbers")]
         [HttpGet]
         public List<string> GetAllAccountNumbers()
         {
-            var connection = WebApiConfig.ConnectDb();
-            connection.Open();
-            var result = new List<string>();
-            var command = new MySqlCommand("SELECT Account_number from info", connection);
-            var reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                result.Add(reader["Account_number"].ToString());
-            }
-
-            return result;
+            var accountNumbers = _db.Customers.Select(x => x.Account_number).ToList();
+            return accountNumbers;
         }
 
-        // POST: api/Customer
+        [Route("api/Customer/GetPassword/{accountNumber}")]
+        [HttpGet]
+        public string GetPasswordByAccountNumber(string accountNumber = "")
+        {
+            var row = _db.Customers.FirstOrDefault(r => r.Account_number == accountNumber);
+            if (row != null)
+            {
+
+                return row.Password;
+            }
+
+            return ErrorMessage;
+                
+        }
+
+        [Route("api/Customer")]
+        [HttpPost]
         public HttpResponseMessage Post(Customer newCustomer)
         {
-            var connection = WebApiConfig.ConnectDb();
-            connection.Open();
-            var command = new MySqlCommand("INSERT INTO info values(@name,@address,@phone_number,@email,@password,@account_number,@balance,@image_path, @gender, @birth_date)", connection);
-            command.Parameters.AddWithValue("@name", newCustomer.Name);
-            command.Parameters.AddWithValue("@address", newCustomer.Address);
-            command.Parameters.AddWithValue("@phone_number", newCustomer.Phone_number);
-            command.Parameters.AddWithValue("@email", newCustomer.Email);
-            command.Parameters.AddWithValue("@password", newCustomer.Password);
-            command.Parameters.AddWithValue("@balance", newCustomer.Balance);
-            command.Parameters.AddWithValue("@account_number", newCustomer.Account_number);
-            command.Parameters.AddWithValue("@image_path", newCustomer.ImagePath);
-            command.Parameters.AddWithValue("@gender", newCustomer.Gender);
-            command.Parameters.AddWithValue("@birth_date", newCustomer.BirthDate);
-            
-            var status = command.ExecuteNonQuery();
+            try
+            {
+                var newRecord = new Customer
+                {
+                    Name = newCustomer.Name,
+                    Address = newCustomer.Address,
+                    Phone_number = newCustomer.Phone_number,
+                    Email = newCustomer.Email,
+                    Password = newCustomer.Password,
+                    Balance = newCustomer.Balance,
+                    Account_number = newCustomer.Account_number,
+                    ImagePath = newCustomer.ImagePath,
+                    Gender = newCustomer.Gender,
+                    BirthDate = newCustomer.BirthDate
+                };
 
-            if (status == 1)
-            {
-                connection.Close();
-                return new HttpResponseMessage(HttpStatusCode.OK);
+
+                _db.Customers.Add(newRecord);
+                _db.SaveChanges();
+                return Request.CreateErrorResponse(HttpStatusCode.OK,
+                    "Customer added sucessfully");
             }
-            else
+            catch (Exception e)
             {
-                connection.Close();
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    $"Something went wrong. Problem description : {e.Message}");
             }
         }
 
-        // PUT: api/Customer/5
-        public void Put(string id, [FromBody]Customer updateDetails)
+        [Route("api/Customer/{id}")]
+        [HttpPut]
+        public HttpResponseMessage Put(string id, [FromBody] Customer newCustomer)
         {
-            CustomerController cc = new CustomerController();
-            var customer = cc.Get();
-
-            // Find the account 
-            foreach (var item in customer)
+            try
             {
-                // Update the fields
-                if (id.ToString() == item.Account_number)
-                {
-                    item.Name = updateDetails.Name;
-                    item.Address = updateDetails.Address;
-                    item.Phone_number = updateDetails.Phone_number;
-                    item.Email = updateDetails.Email;
-                    item.Password = updateDetails.Password;
-                    item.Balance = updateDetails.Balance;
-                    item.ImagePath = updateDetails.ImagePath;
-                    item.Gender = updateDetails.Gender;
-                    item.BirthDate = updateDetails.BirthDate;
+                var c = _db.Customers.First(i => i.Account_number == id);
+                c.Name = newCustomer.Name;
+                c.Address = newCustomer.Address;
+                c.Phone_number = newCustomer.Phone_number;
+                c.Email = newCustomer.Email;
+                c.Password = newCustomer.Password;
+                c.ImagePath = newCustomer.ImagePath;
+                c.Gender = newCustomer.Gender;
+                c.BirthDate = newCustomer.BirthDate;
 
-                    var connection = WebApiConfig.ConnectDb();
-                    connection.Open();
-                    var command = new MySqlCommand($"UPDATE info SET Name=@name, Address=@address , Phone_number=@phone_number , Email=@email , Password=@password, Balance=@balance , ImagePath=@image_path , Gender=@gender , BirthDate = @birth_date where Account_number = {id.ToString()}", connection);
-                    command.Parameters.AddWithValue("@name", updateDetails.Name);
-                    command.Parameters.AddWithValue("@address", updateDetails.Address);
-                    command.Parameters.AddWithValue("@phone_number", updateDetails.Phone_number);
-                    command.Parameters.AddWithValue("@email", updateDetails.Email);
-                    command.Parameters.AddWithValue("@password", updateDetails.Password);
-                    command.Parameters.AddWithValue("@balance", updateDetails.Balance);
-                    command.Parameters.AddWithValue("@account_number", updateDetails.Account_number);
-                    command.Parameters.AddWithValue("@image_path", updateDetails.ImagePath);
-                    command.Parameters.AddWithValue("@gender", updateDetails.Gender);
-                    command.Parameters.AddWithValue("@birth_date", updateDetails.BirthDate);
+                _db.SaveChanges();
 
-
-                    command.ExecuteReader();
-                    connection.Close();
-                    return;
-                }
+                return Request.CreateErrorResponse(HttpStatusCode.OK,
+                    "Customer details updated sucessfully");
             }
-
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    $"Something went wrong. Problem description : {e.Message}");
+            }
         }
 
 
@@ -167,39 +123,54 @@ namespace Web_Api_Alexa.Controllers
         [HttpPut]
         public HttpResponseMessage UpdateBalance(string accountNumber, string balance)
         {
-            var connection = WebApiConfig.ConnectDb();
-            connection.Open();
-            var command = new MySqlCommand($"Update info set Balance = {balance} where Account_number = {accountNumber}", connection);
-            int status = command.ExecuteNonQuery();
-            if (status == 1)
+            try
             {
-                connection.Close();
-                return new HttpResponseMessage(HttpStatusCode.OK);
-            }
-            else
-            {
-                connection.Close();
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
+                var customer = (from c in _db.Customers.Where(a => a.Account_number == accountNumber) select c)
+                    .FirstOrDefault();
 
+
+                if (customer != null)
+                {
+                    customer.Balance = balance;
+                    _db.SaveChanges();
+                    return new HttpResponseMessage(HttpStatusCode.OK);
+                }
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    "Customer not found");
+            }
+            catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    $"Something went wrong. Problem description : {e.Message}");
+            }
         }
 
-        // DELETE: api/Customer/5
-        public HttpResponseMessage Delete(string id)
+
+        [Route("api/Customer/{accountNo}")]
+        [HttpDelete]
+        public HttpResponseMessage Delete(string accountNo)
         {
-            var connection = WebApiConfig.ConnectDb();
-            connection.Open();
-            var command = new MySqlCommand($"DELETE from info where Account_number = {id}", connection);
-            var status = command.ExecuteNonQuery();
-            if (status == 1)
+            try
             {
-                connection.Close();
-                return new HttpResponseMessage(HttpStatusCode.OK);
+                var customer = (from d in _db.Customers
+                                where d.Account_number == accountNo
+                                select d).Single();
+
+                if (customer != null)
+                {
+                    _db.Customers.Remove(customer);
+                    _db.SaveChanges();
+                }
+
+                return Request.CreateErrorResponse(HttpStatusCode.OK,
+                    "Customer deleted sucessfully");
             }
-            else
+
+            catch (Exception e)
             {
-                connection.Close();
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    $"Something went wrong. Problem description : {e.Message}");
             }
         }
     }
