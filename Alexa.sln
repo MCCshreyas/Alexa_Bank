@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alexa_Console", "Alexa_Console\Alexa_Console.csproj", "{4A3BFEF9-5B2D-4731-A1D5-ACA88A7460B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankLibrary", "BankLibrary\BankLibrary.csproj", "{FBA57C79-A06F-41CF-AC5D-314AACCE7306}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alexa_API", "BankLibrary\Alexa_API.csproj", "{FBA57C79-A06F-41CF-AC5D-314AACCE7306}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank_REST", "Bank_REST\Bank_REST.csproj", "{D72FC073-A461-4815-9199-D0349B2EBCE1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alexa_Server", "Bank_REST\Alexa_Server.csproj", "{D72FC073-A461-4815-9199-D0349B2EBCE1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alexa_Desktop", "Alexa_Desktop\Alexa_Desktop.csproj", "{B862CCC8-C455-46B8-825B-18D5C7D0F036}"
 EndProject

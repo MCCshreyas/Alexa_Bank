@@ -263,3 +263,4 @@ __pycache__/
 *.config
 *.xss
 
+/Web_Api_Alexa/Properties/PublishProfiles
