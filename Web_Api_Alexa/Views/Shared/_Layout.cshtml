@@ -1,33 +1,50 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <!-- Font Awesome -->
+    <meta name="viewport" content="width=device-width , Initial-scale=1.0" />
+    <title>Alexa Bank</title>
+    <style>
+       
+    </style>
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
-    <div class="navbar navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                @Html.ActionLink("Alexa Bank of India", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="nav">
-                <ul class="nav nav-item">
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                </ul>
-            </div>
+
+<body style="padding-top:unset; padding-bottom:unset">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        @Html.ActionLink("Alexa Bank of India", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation" style="">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/login">Log in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account/register">Sign up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Help">API</a>
+                </li>
+            </ul>
         </div>
-    </div>
-    <div class="container body-content">
+    </nav>
+
+    <div>
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
