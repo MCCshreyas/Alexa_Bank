@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace Web_Api_Alexa
 {
@@ -21,7 +20,7 @@ namespace Web_Api_Alexa
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-materia.css",
                       "~/Content/site.css"));
         }
     }

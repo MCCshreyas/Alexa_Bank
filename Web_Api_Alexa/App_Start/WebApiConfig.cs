@@ -1,8 +1,5 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http;
-using MySql.Data.MySqlClient;
 
 namespace Web_Api_Alexa
 {
