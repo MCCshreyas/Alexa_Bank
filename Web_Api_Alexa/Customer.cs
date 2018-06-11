@@ -33,19 +33,25 @@ namespace Web_Api_Alexa
 
 
         [Required(ErrorMessage = "Password is required")]
+        [Display(Prompt = "Password")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         public string Balance { get; set; }
 
+        [Required(ErrorMessage = "Account number is required")]
+        [Display(Name = "Account Number")]
         public string Account_number { get; set; }
 
-        [Required(ErrorMessage = "Image is required")]
-        public string ImagePath { get; set; }
+        public string ImagePath { get; set; } = "";
 
         [Required(ErrorMessage = "Gender is required")]
         public string Gender { get; set; }
 
         [Required(ErrorMessage = "Birth date is required")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Birth date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public string BirthDate { get; set; }
 
         public int ID { get; set; }
