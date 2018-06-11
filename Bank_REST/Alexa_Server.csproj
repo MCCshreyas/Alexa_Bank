@@ -65,7 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alexa_Service.cs" />
-    <Compile Include="Constants.cs" />
+    <Compile Include="Config\MailConfiguration.cs" />
+    <Compile Include="Config\ServerConfiguration.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
