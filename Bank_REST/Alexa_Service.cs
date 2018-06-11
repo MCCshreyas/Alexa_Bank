@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using Bank_REST;
+using Bank_REST.Config;
 using Newtonsoft.Json;
-
 // ReSharper disable once CheckNamespace
 namespace Alexa_Server
 {
-    public class AlexaService
+    public class AlexaService : MailConfiguration
     {
+        /// <summary>
+        /// This will return List of account numbers
+        /// </summary>
+        /// <returns></returns>
         public static ArrayList GetAllAccountNumber()
         {
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://{Constants.BaseAddress}/api/customer/GetAccountNumbers");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://{ServerConfiguration.BaseAddress}/api/customer/GetAccountNumbers");
             request.Method = "GET";
             var test = string.Empty;
             using (var response = (HttpWebResponse)request.GetResponse())
@@ -32,9 +36,14 @@ namespace Alexa_Server
 
         }
 
+        /// <summary>
+        /// Returns the password of give account number
+        /// </summary>
+        /// <param name="accountNumber"></param>
+        /// <returns></returns>
         public static string GetPassword(string accountNumber)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://{Constants.BaseAddress}/api/customer/getpassword/{accountNumber}");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://{ServerConfiguration.BaseAddress}/api/customer/getpassword/{accountNumber}");
 
             request.Method = "GET";
 
@@ -61,9 +70,9 @@ namespace Alexa_Server
         /// </summary>
         /// <param name="accountNumber"></param>
         /// <returns></returns>
-        public  static Customer GetCustomer(string accountNumber)
+        public static Customer GetCustomer(string accountNumber)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://{Constants.BaseAddress}/api/customer/{accountNumber}");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://{ServerConfiguration.BaseAddress}/api/customer/{accountNumber}");
 
             request.Method = "GET";
 
@@ -101,18 +110,18 @@ namespace Alexa_Server
             string pos = random.ToString().Replace("-", "").Substring(0, 12);
 
             var account = Convert.ToInt64(pos).ToString();
-            
+
             var availableAccountNumbers = new ArrayList();
 
             availableAccountNumbers = GetAllAccountNumber();
-            
+
             foreach (var acc in availableAccountNumbers)
             {
                 if (acc.Equals(account))
                 {
-                   long no = Convert.ToInt64(account);
-                   no = no + 1;
-                   return no.ToString();
+                    long no = Convert.ToInt64(account);
+                    no = no + 1;
+                    return no.ToString();
                 }
                 else
                 {
@@ -120,6 +129,29 @@ namespace Alexa_Server
                 }
             }
             return null;
+        }
+
+
+
+        public static bool SendAccountConfirmationMail(string mailAddress, string accountNumber)
+        {
+            var mail = new MailMessage();
+
+            mail.To.Add(mailAddress);
+
+            mail.From = new MailAddress(MailConfiguration.MailAddress);
+
+            mail.Subject = MailConfiguration.MailSubject;
+
+            mail.Body = $"Thank you for creating account. <br/> Your account number is {accountNumber}";
+
+            mail.IsBodyHtml = true;
+
+            SmtpClient smtp = MailConfiguration.SetUpMailServer();
+
+            smtp.Send(mail);
+
+            return true;
         }
     }
 }
