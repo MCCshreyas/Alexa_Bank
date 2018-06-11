@@ -6,6 +6,8 @@ namespace Web_Api_Alexa.Controllers
 {
     public class AccountController : Controller
     {
+        private CustomerDBContext context = new CustomerDBContext();
+        
         [HttpGet]
         public ActionResult Index()
         {
@@ -29,31 +31,23 @@ namespace Web_Api_Alexa.Controllers
         [HttpPost]
         public ActionResult Register(Customer customer)
         {
-            try
+            using (context = new CustomerDBContext())
             {
-                if (ModelState.IsValid)
-                {
-                    using (var db = new CustomerDBContext())
-                    {
-                        customer.Account_number = AlexaService.GenerateNewAccountNumber().ToString();
+                customer.Account_number = AlexaService.GenerateNewAccountNumber().ToString();
 
-                        customer.Balance = "500";
-                        db.Customers.Add(customer);
-                        db.SaveChanges();
-                    }
-
-                    ModelState.Clear();
-                    ViewBag.Message = "Account Created sucessfully";
-                }
+                customer.Balance = "500";
+                context.Customers.Add(customer);
+                context.SaveChanges();
             }
-            catch (System.Exception e)
-            {
 
-                throw;
-            }
+            ModelState.Clear();
+            ViewBag.Message = "Account Created sucessfully. Account number has been sent to your Registered email address";
+
+            AlexaService.SendAccountConfirmationMail(customer.Email.ToString(), customer.Account_number);
             return View();
-        }
 
+        }
+        
 
         /// <summary>
         /// Get method for login page
@@ -72,9 +66,9 @@ namespace Web_Api_Alexa.Controllers
         [HttpPost]
         public ActionResult Login(Customer customer)
         {
-            using (var db = new CustomerDBContext())
+            using (context = new CustomerDBContext())
             {
-                var user = db.Customers.Where(u => u.Account_number == customer.Account_number && u.Password == customer.Password).FirstOrDefault();
+                var user = context.Customers.Where(u => u.Account_number == customer.Account_number && u.Password == customer.Password).FirstOrDefault();
 
                 if (user != null)
                 {
@@ -89,8 +83,7 @@ namespace Web_Api_Alexa.Controllers
             }
             return View();
         }
-
-
+        
         public ActionResult LoggedIn()
         {
             if (Session["AccountNumber"] != null)
